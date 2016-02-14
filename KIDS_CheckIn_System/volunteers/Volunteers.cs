@@ -4,17 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using Microsoft.Practices.EnterpriseLibrary.Data;
+using System.Data.Common;
+using System.Data;
 
 namespace KIDS_CheckIn_System.volunteers
 {
     class Volunteers
     {
+
+
         //Connection Properties
-        SqlConnection connection = new SqlConnection();
+        SqlConnection connection = null;
         SqlCommand command = new SqlCommand();
-        string connectionstring = "Server=" + AccessRegistryTool.ReadValue("DBServer") + ";Database=Kids_Checkin;User ID=kidschurch;Password=1nt3gr1ty@ENLI;";
-
-
         //Volunteer Info
         private string FirstName = "";
         private string LastName = "";
@@ -44,47 +46,43 @@ namespace KIDS_CheckIn_System.volunteers
         private string NFCCode = "";
         private string PicPath = "";
 
+        Database db;
         public Volunteers()
         {
-
+            db = DatabaseFactory.CreateDatabase();
+            this.connection = db.CreateConnection() as SqlConnection;
         }
 
         public Volunteers(string fldID)
         {
-            SqlDataReader reader;
+
+            IDataReader reader;
             string sql = "SELECT * FROM tblVolunteers WHERE fldID='" + fldID + "'";
 
-            connection = new SqlConnection(connectionstring);
-            connection.Open();
-            command.Connection = connection;
-            command.CommandText = sql;
 
-            reader = command.ExecuteReader();
-
-            reader.Read();
-            if(reader.HasRows)
+            using (reader = this.db.ExecuteReader(System.Data.CommandType.Text, sql))
             {
-                this.FirstName = "" + reader["fldFirstName"];
-                this.LastName = "" + reader["fldLastName"];
-                this.NickName = "" + reader["fldNickName"];
-                this.NameOnID = "" + reader["fldNameOnID"];
-                this.Street = "" + reader["fldStreet"];
-                this.City = "" + reader["fldCity"];
-                this.Mobile = "" + reader["fldMobile"];
-                this.Email = "" + reader["fldEmail"];
-                //this.Service = int.Parse("" + reader["fldService"]);
-                ////this.Week = "" + reader["fldWeek"];
-                //this.Class = int.Parse("" + reader["fldClass"]);
-                this.VGL = "" + reader["fldVGL"];
-                this.VGLContact = "" + reader["fldVGLContact"];
-                this.Leading = bool.Parse("" + reader["fldLeading"]);
-                this.ID = fldID;
-                this.NFCCode = "" + reader["fldNFCCode"];
-                this.PicPath = "" + reader["fldPicture"];
+                while (reader.Read())
+                {
+                    this.FirstName = reader.GetString(reader.GetOrdinal("fldFirstName"));
+                    this.LastName = reader.GetString(reader.GetOrdinal("fldLastName"));
+                    this.NickName = reader.GetString(reader.GetOrdinal("fldNickName"));
+                    this.NameOnID = reader.GetString(reader.GetOrdinal("fldNameOnID"));
+                    this.Street = reader.GetString(reader.GetOrdinal("fldStreet"));
+                    this.City = reader.GetString(reader.GetOrdinal("fldCity"));
+                    this.Mobile = reader.GetString(reader.GetOrdinal("fldMobile"));
+                    this.Email = reader.GetString(reader.GetOrdinal("fldEmail"));
+                    //this.Service = int.Parse("" + reader["fldService"]);
+                    ////this.Week = "" + reader["fldWeek"];
+                    //this.Class = int.Parse("" + reader["fldClass"]);
+                    this.VGL = reader.GetString(reader.GetOrdinal("fldVGL"));
+                    this.VGLContact = reader.GetString(reader.GetOrdinal("fldVGLContact"));
+                    this.Leading = reader.GetBoolean(reader.GetOrdinal("fldLeading"));
+                    this.ID = fldID;
+                    this.NFCCode = reader.GetString(reader.GetOrdinal("fldNFCCode"));
+                    this.PicPath = reader.GetString(reader.GetOrdinal("fldPicture"));
+                }
             }
-
-            command.Dispose();
-            connection.Close();
         }
 
 
@@ -136,31 +134,13 @@ namespace KIDS_CheckIn_System.volunteers
 
         public bool Save()
         {
-            connection = new SqlConnection(connectionstring);
-            connection.Open();
-
-            command.Connection = connection;
-
             string sql = "INSERT INTO tblVolunteers(fldFirstName,fldLastName,fldNickName,fldNameOnID,fldService,fldWeek,fldClass,fldStreet,fldCity,fldEmail,fldMobile,fldVGL,fldVGLContact,fldLeading,fldPicture) VALUES('" + 
                          FirstName + "','" + LastName + "','" + NickName + "','" + NameOnID + "','" + Service + "','" + Week + "','" + Class + "','" + Street  + "','" + City + "','" + Email + "','" + Mobile + "','" + VGL + "','" + VGLContact + "','" + Leading + "','" + PicPath +  "')";
 
-            command.CommandText = sql;
-
-            if(command.ExecuteNonQuery()==0)
-            {
-                command.Dispose();
-                connection.Close();
-                return false;
-            }
-            else
-            {
-                command.Dispose();
-                connection.Close();
-                return true;
-            }
-
-           
-
+            DbCommand cmd = db.GetSqlStringCommand(sql);
+            int result =  db.ExecuteNonQuery(cmd);
+            cmd.Dispose();
+            return result > 0;
         }
 
         public string getFirstName() { return this.FirstName; }
@@ -186,26 +166,11 @@ namespace KIDS_CheckIn_System.volunteers
                         "',fldStreet='" + Street + "',fldCity='" + City + "',fldService='" + Service + "',fldWeek='" + Week + "',fldClass='" + Class + "',fldVGL='" + VGL + "',fldVGLContact='" +
                         VGLContact + "',fldLeading='" + Leading + "',fldNFCCode='" + NFCCode + "',fldActive=1,fldPicture='" + PicPath + "' WHERE fldID='" + ID  + "'";
 
-            connection = new SqlConnection(connectionstring);
-            connection.Open();
+            DbCommand cmd = db.GetSqlStringCommand(sql);
+            int result = db.ExecuteNonQuery(cmd);
+            cmd.Dispose();
+            return result > 0;
 
-            command.CommandText = sql;
-            command.Connection = connection;
-
-            if (command.ExecuteNonQuery() == 0)
-            {
-                command.Dispose();
-                connection.Close();
-                return false;
-            }
-            else
-            {
-                command.Dispose();
-                connection.Close();
-                return true;
-            }
-
-           
         }
 
 
