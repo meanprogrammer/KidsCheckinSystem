@@ -17,7 +17,7 @@ namespace KIDS_CheckIn_System
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmSystemOptions());
+            Application.Run(new frmVolunteerManagement());
         }
     }
 }

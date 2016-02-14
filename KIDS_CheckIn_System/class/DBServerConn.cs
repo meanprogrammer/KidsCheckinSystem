@@ -12,7 +12,7 @@ using System.Data.SqlClient;
      static private string DBUser = "kidschurch";
      static private string DBPass = "1nt3gr1ty@ENLI";
 
-     static private string connectionstring = "Server=" + DBServer + ";Database=" + DBase + ";User Id=" + DBUser + ";Password=" + DBPass + ";";
+    static private string connectionstring = "Server=" + DBServer + ";Database=" + DBase + "Integrated Security=true;";
 
      static private SqlConnection connection = new SqlConnection(connectionstring);
      static private SqlCommand command = new SqlCommand();

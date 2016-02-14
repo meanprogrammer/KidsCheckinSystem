@@ -47,14 +47,20 @@ namespace KIDS_CheckIn_System.volunteers
         private string PicPath = "";
 
         Database db;
-        public Volunteers()
+
+        private void InitializeDatabase()
         {
             db = DatabaseFactory.CreateDatabase();
-            this.connection = db.CreateConnection() as SqlConnection;
+        }
+
+        public Volunteers()
+        {
+            InitializeDatabase();
         }
 
         public Volunteers(string fldID)
         {
+            InitializeDatabase();
 
             IDataReader reader;
             string sql = "SELECT * FROM tblVolunteers WHERE fldID='" + fldID + "'";

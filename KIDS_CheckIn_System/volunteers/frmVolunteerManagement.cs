@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using KIDS_CheckIn_System.Helper;
 
 namespace KIDS_CheckIn_System.volunteers
 {
@@ -747,7 +748,7 @@ namespace KIDS_CheckIn_System.volunteers
 
                 if (vol.Update())
                 {
-                    pictureBox1.Image.Save(AccessRegistryTool.ReadValue("PicPath") + @"\volunteer\" + Picture);
+                    pictureBox1.Image.Save(AppSettingsHelper.GetAppSettingsValue("PicturePath") + @"\volunteer\" + Picture);
                     LoadVolunteers();
                     txtFirstName.Text = "";
                     txtLastName.Text = "";
@@ -765,7 +766,7 @@ namespace KIDS_CheckIn_System.volunteers
                     chkLeading.Checked = false;
                     txtNFCCode.Text = "";
                     pictureBox1.Image.Dispose();
-                    pictureBox1.Image = Image.FromFile(AccessRegistryTool.ReadValue("PicPath") + "\\download.jpg");
+                    pictureBox1.Image = Image.FromFile(AppSettingsHelper.GetAppSettingsValue("PicturePath") + @"\download.jpg");
                 }
                 else
                 {
@@ -790,7 +791,7 @@ namespace KIDS_CheckIn_System.volunteers
 
                 if(vol.Save())
                 {
-                    pictureBox1.Image.Save(AccessRegistryTool.ReadValue("PicPath") + @"\volunteer\" + Picture);
+                    pictureBox1.Image.Save(AppSettingsHelper.GetAppSettingsValue("PicturePath") + Picture);
                     LoadVolunteers();
                     txtFirstName.Text = "";
                     txtLastName.Text = "";
@@ -809,7 +810,7 @@ namespace KIDS_CheckIn_System.volunteers
                     txtNFCCode.Text = "";
                     Picture = "";
                     pictureBox1.Image.Dispose();
-                    pictureBox1.Image = Image.FromFile(AccessRegistryTool.ReadValue("PicPath") + "\\download.jpg");
+                    pictureBox1.Image = Image.FromFile(AppSettingsHelper.GetAppSettingsValue("PicturePath") + @"\volunteer\download.jpg");
                 }
             }
 
@@ -858,13 +859,15 @@ namespace KIDS_CheckIn_System.volunteers
             txtNFCCode.Text = volunteer.getNFCCode();
             Picture = volunteer.getPicPath();
 
-            if (System.IO.File.Exists(AccessRegistryTool.ReadValue("PicPath") + @"\volunteer\" + Picture))
+            string imageFullPath = AppSettingsHelper.GetAppSettingsValue("PicturePath") + @"\volunteer\" + Picture;
+
+            if (System.IO.File.Exists(imageFullPath))
             {
-                pictureBox1.Image = Image.FromFile(AccessRegistryTool.ReadValue("PicPath") + @"\volunteer\" + Picture);
+                pictureBox1.Image = Image.FromFile(imageFullPath);
             }
             else
             {
-                pictureBox1.Image = Image.FromFile(AccessRegistryTool.ReadValue("PicPath") + "\\download.jpg");
+                pictureBox1.Image = Image.FromFile(AppSettingsHelper.GetAppSettingsValue("PicturePath") + @"\download.jpg");
             }
 
         }

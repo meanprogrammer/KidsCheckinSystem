@@ -96,9 +96,13 @@
       <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Visual Studio Tools for Office\PIA\Office15\Microsoft.Office.Interop.Excel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data.Configuration.Design, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -217,6 +221,7 @@
     <Compile Include="helpdesk\frmVerifier.designer.cs">
       <DependentUpon>frmVerifier.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\AppSettingsHelper.cs" />
     <Compile Include="required\frmSystemOptions.cs">
       <SubType>Form</SubType>
     </Compile>
