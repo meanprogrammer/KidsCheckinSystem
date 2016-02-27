@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.Practices.EnterpriseLibrary.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,10 +14,12 @@ namespace KIDS_CheckIn_System.admin
 {
     public partial class frmEventRoom : Form
     {
+        Database db;
         Connector js = new Connector();
         public frmEventRoom()
         {
             InitializeComponent();
+            db = DatabaseFactory.CreateDatabase();
         }
 
 
@@ -30,11 +34,12 @@ namespace KIDS_CheckIn_System.admin
         {
             string q = "SELECT * FROM tblRoom";
 
-            js.ExecuteQuery(q);
+            DbCommand cmd = db.GetSqlStringCommand(q);
+            IDataReader reader = db.ExecuteReader(cmd);
 
-            while(js.RiD.Read())
+            while(reader.Read())
             {
-                cboRoom.Items.Add(js.RiD["fldRoom"]);
+                cboRoom.Items.Add(reader.GetString(reader.GetOrdinal("fldRoom")));
             }
         }
 
@@ -42,12 +47,15 @@ namespace KIDS_CheckIn_System.admin
         {
             string q = "SELECT * FROM tblCustomizedEventRooms WHERE fldCEventID='" + this.Tag + "'";
 
-            js.ExecuteQuery(q);
+            //js.ExecuteQuery(q);
+
+            DbCommand cmd = db.GetSqlStringCommand(q);
+            IDataReader reader = db.ExecuteReader(cmd);
 
             dataGridView1.Rows.Clear();
-            while (js.RiD.Read())
+            while (reader.Read())
             {
-                string room = js.Lookup("fldRoom", "tblRoom", "fldID='" + js.RiD["fldRoomID"] + "'");
+                string room = js.Lookup("fldRoom", "tblRoom", "fldID='" +  reader.GetString(reader.GetOrdinal("fldRoomID")) + "'");
 
                 dataGridView1.Rows.Add(js.RiD["fldID"],room, js.RiD["fldAgeFrom"], js.RiD["fldAgeTo"],js.RiD["fldMaxCapacity"]);
             }
@@ -142,6 +150,11 @@ namespace KIDS_CheckIn_System.admin
             {
                 txtMaxCap.Text = "";
             }
+        }
+
+        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

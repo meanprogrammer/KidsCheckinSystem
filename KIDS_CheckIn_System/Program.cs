@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using KIDS_CheckIn_System.volunteers;
+using KIDS_CheckIn_System.admin;
 
 namespace KIDS_CheckIn_System
 {
@@ -17,7 +18,7 @@ namespace KIDS_CheckIn_System
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmVolunteerManagement());
+            Application.Run(new frmEventRoom());
         }
     }
 }
