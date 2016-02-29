@@ -47,15 +47,15 @@ namespace KIDS_CheckIn_System.admin
         {
             string q = "SELECT * FROM tblCustomizedEventRooms WHERE fldCEventID='" + this.Tag + "'";
 
-            //js.ExecuteQuery(q);
+            js.ExecuteQuery(q);
 
-            DbCommand cmd = db.GetSqlStringCommand(q);
-            IDataReader reader = db.ExecuteReader(cmd);
+            //DbCommand cmd = db.GetSqlStringCommand(q);
+            //IDataReader reader = db.ExecuteReader(cmd);
 
             dataGridView1.Rows.Clear();
-            while (reader.Read())
+            while (js.RiD.Read())
             {
-                string room = js.Lookup("fldRoom", "tblRoom", "fldID='" +  reader.GetString(reader.GetOrdinal("fldRoomID")) + "'");
+                string room = js.Lookup("fldRoom", "tblRoom", "fldID='" + js.RiD["fldRoomID"] + "'");
 
                 dataGridView1.Rows.Add(js.RiD["fldID"],room, js.RiD["fldAgeFrom"], js.RiD["fldAgeTo"],js.RiD["fldMaxCapacity"]);
             }
