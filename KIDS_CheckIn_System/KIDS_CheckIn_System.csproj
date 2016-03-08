@@ -70,16 +70,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\AForge.dll</HintPath>
+      <HintPath>..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="AForge.Video, Version=2.2.5.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\AForge.Video.dll</HintPath>
+      <HintPath>..\packages\AForge.Video.2.2.5\lib\AForge.Video.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="AForge.Video.DirectShow, Version=2.2.5.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\AForge.Video.DirectShow.dll</HintPath>
+      <HintPath>..\packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DYMO.Common, Version=8.5.0.1751, Culture=neutral, PublicKeyToken=5426002a38745af9, processorArchitecture=MSIL" />
     <Reference Include="DYMO.DLS.Runtime, Version=8.5.0.1751, Culture=neutral, PublicKeyToken=5426002a38745af9, processorArchitecture=MSIL">
@@ -92,8 +92,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>bin\Debug\Interop.Dymo.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Office.Interop.Excel1">
-      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Visual Studio Tools for Office\PIA\Office15\Microsoft.Office.Interop.Excel.dll</HintPath>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -426,6 +425,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="KIDS_CheckIn_System_TemporaryKey.pfx" />
+    <None Include="packages.config" />
     <None Include="Properties\app.manifest">
       <SubType>Designer</SubType>
     </None>
@@ -484,7 +484,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
